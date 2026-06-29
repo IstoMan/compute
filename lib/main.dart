@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:compute/calc.dart';
 
 void main() {
   runApp(const MainApp());
@@ -22,7 +23,7 @@ class _MainAppState extends State<MainApp> {
   }
 
   String calculateResult() {
-    return '0';
+    return evaluate(_text).toString();
   }
 
   void onTap(String symbol) {
@@ -70,14 +71,19 @@ class Display extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 95,
-          fontWeight: FontWeight.w600,
-          fontFamily: GoogleFonts.inter().fontFamily,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.centerRight,
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 95,
+            fontWeight: FontWeight.w600,
+            fontFamily: GoogleFonts.inter().fontFamily,
+          ),
+          textAlign: TextAlign.right,
+          maxLines: 1,
         ),
-        textAlign: TextAlign.right,
       ),
     );
   }
