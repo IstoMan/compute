@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:compute/models/text_type.dart';
+import 'package:compute/models/types.dart';
 
 class Display extends StatelessWidget {
   const Display({super.key, required this.text, required this.type});

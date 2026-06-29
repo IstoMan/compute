@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:compute/calc.dart';
-import 'package:compute/models/text_type.dart';
+import 'package:compute/models/types.dart';
 import 'package:compute/widgets/display.dart';
 import 'package:compute/widgets/main_board.dart';
 
@@ -48,6 +48,10 @@ class _MainAppState extends State<MainApp> {
           if (_text.isNotEmpty) {
             _text = _text.substring(0, _text.length - 1);
           }
+          setState(() {
+            _isDone = false;
+            _type = TextType.normal;
+          });
           break;
         case '=':
           try {
