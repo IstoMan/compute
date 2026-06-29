@@ -1,4 +1,3 @@
-/// Infix-to-postfix conversion and postfix evaluation for calculator expressions.
 library;
 
 const _operators = {'+', '-', '*', '/', '%'};
