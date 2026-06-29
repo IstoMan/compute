@@ -6,6 +6,8 @@ void main() {
   runApp(const MainApp());
 }
 
+enum TextType { normal, result, error }
+
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
@@ -15,31 +17,64 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   late String _text;
+  late TextType _type;
+  late bool _isDone;
 
   @override
   void initState() {
     super.initState();
     _text = '';
+    _type = TextType.normal;
+    _isDone = false;
+  }
+
+  void reset() {
+    setState(() {
+      _text = '';
+      _isDone = false;
+      _type = .normal;
+    });
   }
 
   String calculateResult() {
-    return evaluate(_text).toString();
+    try {
+      return evaluate(_text).toString();
+    } catch (e) {
+      throw FormatException('Invalid expression');
+    }
   }
 
   void onTap(String symbol) {
     setState(() {
       switch (symbol) {
         case 'AC':
-          _text = '';
+          setState(() {
+            _text = '';
+          });
           break;
         case '⌫':
-          if (_text.isNotEmpty) _text = _text.substring(0, _text.length - 1);
+          setState(() {
+            if (_text.isNotEmpty) _text = _text.substring(0, _text.length - 1);
+          });
           break;
         case '=':
-          _text = calculateResult();
+          setState(() {
+            try {
+              _text = calculateResult();
+              _type = TextType.result;
+            } catch (e) {
+              _type = TextType.error;
+            }
+            _isDone = true;
+          });
           break;
         default:
-          _text += symbol;
+          if (_isDone) {
+            reset();
+          }
+          setState(() {
+            _text += symbol;
+          });
           break;
       }
     });
@@ -48,24 +83,25 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.dark(),
       home: Scaffold(
         body: Column(
-          mainAxisAlignment: .end,
-          crossAxisAlignment: .end,
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Display(text: _text),
+            Display(text: _text, type: _type),
             MainBoard(onTap: onTap),
           ],
         ),
       ),
-      theme: ThemeData.dark(),
     );
   }
 }
 
 class Display extends StatelessWidget {
-  const Display({super.key, required this.text});
+  const Display({super.key, required this.text, required this.type});
   final String text;
+  final TextType type;
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +113,11 @@ class Display extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
+            color: switch (type) {
+              TextType.normal => Colors.white,
+              TextType.result => Colors.purple,
+              TextType.error => Colors.red,
+            },
             fontSize: 95,
             fontWeight: FontWeight.w600,
             fontFamily: GoogleFonts.inter().fontFamily,
