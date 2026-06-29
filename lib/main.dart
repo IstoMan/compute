@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MainApp());
@@ -12,7 +13,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: Text('Calcutor'), centerTitle: true),
-        body: const MainBoard(),
+        body: MainBoard(),
       ),
       theme: ThemeData.dark(),
     );
@@ -66,7 +67,7 @@ class MainBoard extends StatelessWidget {
   }
 }
 
-enum DigitType { number, operator, equal, clear, back, percent, decimal }
+enum DigitType { number, operator, equal, clear, back, decimal }
 
 enum Operator { add, subtract, multiply, divide }
 
@@ -80,22 +81,28 @@ class DigitButton extends StatelessWidget {
     return Container(
       width: 100,
       height: 100,
+      margin: const EdgeInsets.all(2),
       decoration: BoxDecoration(
         color: switch (type) {
           DigitType.number => Colors.grey,
           DigitType.operator => Colors.orange,
           DigitType.equal => Colors.blue,
+          DigitType.back => Colors.yellow.shade700,
           DigitType.clear => Colors.red,
-          DigitType.back => Colors.grey,
-          DigitType.percent => Colors.grey,
           DigitType.decimal => Colors.grey,
         },
         shape: BoxShape.circle,
+        border: Border.all(color: Colors.white38),
       ),
       child: Center(
         child: Text(
           symbol,
-          style: TextStyle(fontSize: 30, color: Colors.white),
+          style: TextStyle(
+            fontSize: 35,
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontFamily: GoogleFonts.inter().fontFamily,
+          ),
         ),
       ),
     );

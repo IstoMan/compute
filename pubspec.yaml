@@ -1,12 +1,13 @@
 name: compute
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0+1
 
 environment:
   sdk: ^3.11.5
 
 dependencies:
+  google_fonts: ^6.1.0
   flutter:
     sdk: flutter
 
